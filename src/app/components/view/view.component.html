@@ -1,0 +1,130 @@
+<div *ngIf="!handleLogin" class=" bg center">
+
+    <div class="container">
+
+        <form [formGroup]="loginForm">
+            <label class="form-label" >Nombre</label>
+            <input class="form-control" type="text" placeholder="Ingrese un nombre" formControlName="name" >
+            <div class="text-danger">
+                <small *ngIf="name?.touched && name?.hasError('required')"> Se requiere un nombre </small>
+                
+            </div>
+            
+            
+            <label class="form-label mt-4">Constraseña</label>
+            <input class="form-control" type="password" placeholder="Ingrese una contraseña" formControlName="password">
+            <div class="text-danger">
+                <small *ngIf="password?.touched && password?.hasError('required')"> Se requiere un nombre </small>
+
+            </div>
+
+            <div *ngIf="handleErrorPassword" class="text-danger">
+                La constraseña no es correcta
+            </div>
+            <div *ngIf="handleErrorUser " class="text-danger">
+                El usuario no es correcto
+            </div>
+        
+        </form>
+        <div class="center">
+
+            <button (click)="loginSubmit()" class="btn btn-primary mt-4">
+                Enviar
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="handleLogin" class="bg-logged">
+    <div class="position-absolute top-0 end-0" style="padding: 20px;">
+        <button class="btn btn-danger " (click)="logout()">
+            Cerrar sesión
+        </button>
+    </div>
+    <div class="container" >
+        <form [formGroup]="amounForm">
+
+            <div class="">
+                <div class="mt-4">
+                    ¡Bienvenido {{this.userLogged.nombre}}!
+                </div>
+        
+                <div class="mt-4">
+                    Puedes realizar las siguientes opciones:
+                </div>
+            </div>
+            <div class="center mt-4">
+        
+                <button (click)="checkBalance()" class="btn btn-success me-2">
+                    Consultar saldo
+                </button>
+                <button (click)="enterAmount()" class="btn btn-secondary me-2">
+                    Ingresar monto
+                </button>
+                <button (click)="withdrawAmount()" class="btn btn-warning">
+                    Retirar monto
+                </button>
+            </div>
+    
+            <div *ngIf="handleBalanceShow">
+                <div class="center mt-4">
+                    Su saldo es: {{amount}}
+                </div>
+                <div class="center mt-4">
+    
+                    <button (click)="cancelAll()" class="btn btn-danger">
+                        Cerrar
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="handleEnterBalanceShow">
+                <div class=" mt-4">
+                    <div>
+    
+                        <label class="form-label">Ingrese el monto</label>
+                    </div>
+                    <input formControlName="enter" class="form-control" type="number" placeholder="Cantidad">
+                    <div>
+                        <small class="text-danger" *ngIf="enter?.touched && enter?.hasError('required')" >Ingrese una cantidad</small>
+                        <small class="text-danger" *ngIf="enter?.touched && enter?.hasError('min')" >Ingrese un número válido</small>
+    
+                    </div>
+                </div>
+                <div class="center mt-4">
+                    <button (click)="cancelAll()" class="btn btn-danger">
+                        Cancelar
+                    </button>
+                    <button (click)="sendEnterAmount()" class="btn btn-primary ms-2">
+                        Ingresar
+                    </button>
+                    
+                </div>
+            </div>
+            <div *ngIf="handleWithdrawAmountShow">
+                <div class=" mt-4">
+                    <label class="form-label">Ingrese el monto a retirar</label>
+                    <input formControlName="withdraw" class="form-control" type="number" placeholder="Cantidad">
+                    <small class="text-danger" *ngIf="withdraw?.touched && withdraw?.hasError('required')" >Ingrese una cantidad</small>
+                    <small class="text-danger" *ngIf="withdraw?.touched && withdraw?.hasError('min')" >Ingrese un número válido</small>
+                </div>
+                <div class="center mt-4">
+                    <button (click)="cancelAll()" class="btn btn-danger">
+                        Cancelar
+                    </button>
+                    <button (click)="sendWithdrawAmount()" class="btn btn-primary ms-2">
+                        Ingresar
+                    </button>
+                    
+                </div>
+
+            </div>
+        </form>
+        <div class="center mt-4" *ngIf="messageValidator">
+            {{messageValidator}}
+        </div>
+
+        
+    </div>
+</div>
+
